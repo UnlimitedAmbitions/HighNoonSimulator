@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ public class GameManager : MonoBehaviour {
     public Transform lowerLeft, upperRight;
 
     public float startDelay;
+
+    //UI
+    public Button replayBtn, menuBtn;
 
 
     private List<GameObject> targets;
@@ -31,6 +35,9 @@ public class GameManager : MonoBehaviour {
         if(instance != null) {
             Destroy(this.gameObject);
         }
+
+        replayBtn.gameObject.SetActive(false);
+        menuBtn.gameObject.SetActive(false);
 
         instance = this;
         gameStarted = false;
@@ -72,6 +79,9 @@ public class GameManager : MonoBehaviour {
         gameStarted = false;
         CheckTargets();
         StatAssessment();
+        replayBtn.gameObject.SetActive(true);
+        menuBtn.gameObject.SetActive(true);
+
     }
 
     public void ImDead(){
