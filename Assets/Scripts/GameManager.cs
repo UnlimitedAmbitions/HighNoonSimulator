@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour {
     //UI
     public Button replayBtn, menuBtn;
 
+    public AudioSource audioSource;
+    public AudioClip itsHighNoon, gunshot;
 
     private List<GameObject> targets;
     private bool fired;
@@ -71,6 +73,8 @@ public class GameManager : MonoBehaviour {
     private void StartGame() {
         Debug.Log("start game");
         RandomizeTargets();
+        audioSource.clip = itsHighNoon;
+        audioSource.Play();
         gameStarted = true;
     }
 
@@ -81,7 +85,11 @@ public class GameManager : MonoBehaviour {
         StatAssessment();
         replayBtn.gameObject.SetActive(true);
         menuBtn.gameObject.SetActive(true);
+    }
 
+    // Creates an animation that animates the shooting of kills
+    private void killTarget(){
+        
     }
 
     public void ImDead(){
