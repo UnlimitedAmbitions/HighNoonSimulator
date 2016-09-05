@@ -10,7 +10,6 @@ public class MainMenuCameraTurn : MonoBehaviour {
     {
         SceneManager.LoadScene("game");
         gunshot.Play();
-        BackgroundMusic.bg.reduceVolume();
     }
 	
 	public void ToStats(){

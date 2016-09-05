@@ -10,14 +10,6 @@ public class BackgroundMusic : MonoBehaviour {
 		if(bg != null) Destroy(this.gameObject);
 		bg = this;
 		DontDestroyOnLoad(this.gameObject);
-		aS.volume = 0.7f;
-	}
-
-	public void reduceVolume(){
-		aS.volume = 0.4f;
-	}
-
-	public void raiseVolume(){
-		aS.volume = 0.7f;
+		aS.volume = 0.5f;
 	}
 }
