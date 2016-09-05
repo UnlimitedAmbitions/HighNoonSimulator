@@ -13,23 +13,31 @@ public class GameManager : MonoBehaviour {
 
     public Player playerScript;
 
+    [Header("Background")]
+    public GameObject backgroundPlane;
+    public Material[] allBackgrounds;
+
     [Tooltip("corners of screen")]
     public Transform lowerLeft, upperRight;
 
     public float startDelay;
 
+    [Header("UI")]
     //UI
     public Button replayBtn, menuBtn;
     public GameObject Dmg, HP, Reaction, Kills;
     public Text dmgCount, HPCount, reactionCount, killCount;
+    [Header("Audio")]
 
     public AudioSource itsHighNoonSource, gunshotSource;
     public AudioClip itsHighNoon, gunshot;
 
+    [Header("EndGame")]
+
     //end game
     public float totalAnimationTime;
     public float betweenShotsTime;
-
+    public Animator gunAnimator;
 
     private List<GameObject> targets;
     private bool fired;
@@ -68,6 +76,8 @@ public class GameManager : MonoBehaviour {
         timeWaited = 0f;
 
 	    targets = new List<GameObject>();
+
+        backgroundPlane.GetComponent<MeshRenderer>().material = allBackgrounds[Mathf.FloorToInt(Random.Range(0, allBackgrounds.Length))];
 
         // start game after delay
         Invoke("StartGame", startDelay);      
@@ -179,7 +189,9 @@ public class GameManager : MonoBehaviour {
             }
         }
         // slowly kill everyone
-        killTarget();
+        if(nbTargets == 1) gunAnimator.SetTrigger("shot1");
+        else gunAnimator.SetTrigger("shot2");
+        Invoke("killTarget", 0.25f);
     }
 
     private void StatAssessment() {
