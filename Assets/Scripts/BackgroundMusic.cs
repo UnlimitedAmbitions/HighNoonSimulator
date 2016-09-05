@@ -11,7 +11,7 @@ public class BackgroundMusic : MonoBehaviour {
 		else {
 			bg = this;
 			DontDestroyOnLoad(this.gameObject);
-			aS.volume = 0.5f;
+			aS.volume = 0.25f;
 		}
 	}
 }
