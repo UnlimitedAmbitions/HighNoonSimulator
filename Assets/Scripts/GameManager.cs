@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //PlayerPrefs.DeleteAll();
+
         Debug.Log("game manager start");
         if(instance != null) {
             Destroy(this.gameObject);
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour {
     private void EndGame() {
         Debug.Log("end game");
         gameStarted = false;
-        
+        remainingHp = playerScript.hp;
         StatAssessment();
         
     }
@@ -217,7 +219,7 @@ public class GameManager : MonoBehaviour {
         if(prevDamageDone < damageDone) PlayerPrefs.SetFloat("DamageDone", damageDone);
         if(prevTimeWaited > timeWaited) PlayerPrefs.SetFloat("TimeWaited"+killed, timeWaited);
         PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
-        PlayerPrefs.SetInt("TotalKilled", PlayerPrefs.GetInt("TotalKilled") + 1);
+        PlayerPrefs.SetInt("TotalKilled", PlayerPrefs.GetInt("TotalKilled") + killed);
         if(remainingHp <= 0) PlayerPrefs.SetInt("TotalDeath", PlayerPrefs.GetInt("TotalDeath") + 1);
 
     }
