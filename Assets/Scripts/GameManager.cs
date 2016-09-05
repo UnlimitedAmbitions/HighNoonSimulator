@@ -141,6 +141,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void ReturnToMenu(){
+        BackgroundMusic.bg.raiseVolume();
         SceneManager.LoadScene("MainMenu");
     }
 
