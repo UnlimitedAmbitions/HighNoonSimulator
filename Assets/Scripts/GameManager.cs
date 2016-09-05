@@ -157,11 +157,15 @@ public class GameManager : MonoBehaviour {
 
     public void RestartGame(){
         bannerView.Destroy();
+        gunshotSource.clip = gunshot;
+        gunshotSource.Play();
         SceneManager.LoadScene("game");
     }
 
     public void ReturnToMenu(){
         bannerView.Destroy();
+        gunshotSource.clip = gunshot;
+        gunshotSource.Play();
         SceneManager.LoadScene("MainMenu");
     }
 
