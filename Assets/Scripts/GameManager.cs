@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using GoogleMobileAds.Api;
 
 public class GameManager : MonoBehaviour {
 
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour {
 
     private int destroyTargetCount;
 
+    private BannerView bannerView;
+
 	// Use this for initialization
 	void Start () {
         Debug.Log("game manager start");
@@ -80,7 +83,9 @@ public class GameManager : MonoBehaviour {
         backgroundPlane.GetComponent<MeshRenderer>().material = allBackgrounds[Mathf.FloorToInt(Random.Range(0, allBackgrounds.Length))];
 
         // start game after delay
-        Invoke("StartGame", startDelay);      
+        Invoke("StartGame", startDelay);
+        RequestBanner();
+        bannerView.Hide();
 	}
 	
 	// Update is called once per frame
@@ -106,6 +111,7 @@ public class GameManager : MonoBehaviour {
         itsHighNoonSource.clip = itsHighNoon;
         itsHighNoonSource.Play();
         gameStarted = true;
+
     }
 
     private void EndGame() {
@@ -148,10 +154,12 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RestartGame(){
+        bannerView.Destroy();
         SceneManager.LoadScene("game");
     }
 
     public void ReturnToMenu(){
+        bannerView.Destroy();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -207,7 +215,7 @@ public class GameManager : MonoBehaviour {
         // update stats
         //if(prevRemainingHp < remainingHp) PlayerPrefs.SetInt("TotalDeath", remainingHp);
         if(prevDamageDone < damageDone) PlayerPrefs.SetFloat("DamageDone", damageDone);
-        if(prevTimeWaited < timeWaited) PlayerPrefs.SetFloat("TimeWaited"+killed, timeWaited);
+        if(prevTimeWaited > timeWaited) PlayerPrefs.SetFloat("TimeWaited"+killed, timeWaited);
         PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
         PlayerPrefs.SetInt("TotalKilled", PlayerPrefs.GetInt("TotalKilled") + 1);
         if(remainingHp <= 0) PlayerPrefs.SetInt("TotalDeath", PlayerPrefs.GetInt("TotalDeath") + 1);
@@ -215,6 +223,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void ActivateEndUI(){
+        bannerView.Show();
         dmgCount.text = "" + damageDone.ToString("F0");
         reactionCount.text = "" + timeWaited.ToString("F2");
         killCount.text = "" + killed;
@@ -226,5 +235,16 @@ public class GameManager : MonoBehaviour {
         Reaction.gameObject.SetActive(true);
         Kills.gameObject.SetActive(true);
 
+    }
+
+    private void RequestBanner(){
+        string adUnitId = "ca-app-pub-6435649048408849/4764998613";
+
+        // Create a 320x50 banner at the top of the screen.
+        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+        // Create an empty ad request.
+        AdRequest request = new AdRequest.Builder().Build();
+        // Load the banner with the request.
+        bannerView.LoadAd(request);
     }
 }
