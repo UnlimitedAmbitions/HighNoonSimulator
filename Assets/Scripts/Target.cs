@@ -20,6 +20,7 @@ public class Target : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         scale = startingScale;
+        circle.transform.localScale = new Vector3(scale, scale, scale);
         wouldDie = false;
         scalingRate = allScalingRates[Mathf.FloorToInt(Random.Range(0, allScalingRates.Length))];
         HP = totalHP[Mathf.FloorToInt(Random.Range(0, totalHP.Length))];
@@ -48,6 +49,10 @@ public class Target : MonoBehaviour {
 
     public bool IsDead() {
         return wouldDie;
+    }
+
+    public void HideSkull() {
+        this.gameObject.SetActive(false);
     }
 
     private void setSkull() {

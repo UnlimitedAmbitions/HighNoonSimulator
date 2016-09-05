@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
     public GameObject targetPrefab;
     public int minNbTargets, maxNbTargets;
 
+    public Player playerScript;
+
     [Tooltip("corners of screen")]
     public Transform lowerLeft, upperRight;
 
@@ -18,9 +20,16 @@ public class GameManager : MonoBehaviour {
 
     //UI
     public Button replayBtn, menuBtn;
+    public GameObject Dmg, HP, Reaction, Kills;
+    public Text dmgCount, HPCount, reactionCount, killCount;
 
-    public AudioSource audioSource;
+    public AudioSource itsHighNoonSource, gunshotSource;
     public AudioClip itsHighNoon, gunshot;
+
+    //end game
+    public float totalAnimationTime;
+    public float betweenShotsTime;
+
 
     private List<GameObject> targets;
     private bool fired;
@@ -31,6 +40,10 @@ public class GameManager : MonoBehaviour {
     private float damageDone;
     private float timeWaited;
 
+    private int nbTargets;
+
+    private int destroyTargetCount;
+
 	// Use this for initialization
 	void Start () {
         Debug.Log("game manager start");
@@ -40,12 +53,17 @@ public class GameManager : MonoBehaviour {
 
         replayBtn.gameObject.SetActive(false);
         menuBtn.gameObject.SetActive(false);
+        Dmg.gameObject.SetActive(false);
+        //HP.gameObject.SetActive(false);
+        Reaction.gameObject.SetActive(false);
+        Kills.gameObject.SetActive(false);
 
         instance = this;
         gameStarted = false;
         fired = false;
         killed = 0;
         remainingHp = 0;
+        destroyTargetCount = 0;
         damageDone = 0f;
         timeWaited = 0f;
 
@@ -60,12 +78,14 @@ public class GameManager : MonoBehaviour {
         // timer
         if(gameStarted) {
             timeWaited += Time.deltaTime;
+            HPCount.text = "" + playerScript.hp;
         }
 
         // logic for firing
-        if(Input.GetButtonDown("Fire1") && !fired){
+        if(gameStarted && Input.GetButtonDown("Fire1") && !fired){
             fired = true;
             Debug.Log("BANG");
+            CheckTargets();
             EndGame();
         }
 	}
@@ -73,26 +93,46 @@ public class GameManager : MonoBehaviour {
     private void StartGame() {
         Debug.Log("start game");
         RandomizeTargets();
-        audioSource.clip = itsHighNoon;
-        audioSource.Play();
+        itsHighNoonSource.clip = itsHighNoon;
+        itsHighNoonSource.Play();
         gameStarted = true;
     }
 
     private void EndGame() {
         Debug.Log("end game");
         gameStarted = false;
-        CheckTargets();
+        
         StatAssessment();
-        replayBtn.gameObject.SetActive(true);
-        menuBtn.gameObject.SetActive(true);
+        
     }
 
     // Creates an animation that animates the shooting of kills
     private void killTarget(){
         
+        GameObject o = targets[destroyTargetCount];
+        o.GetComponent<Target>().HideSkull();
+        gunshotSource.clip = gunshot;
+        gunshotSource.Play();
+
+        if(o.GetComponent<Target>().IsDead()){
+            //play screaming sound of death
+        }
+
+        destroyTargetCount++;
+        if(destroyTargetCount < nbTargets){
+            Invoke("killTarget", betweenShotsTime);
+        }
+        else {
+            ActivateEndUI();
+        }
+
     }
 
     public void ImDead(){
+        HPCount.text = "0";
+        foreach(GameObject o in targets) {
+            o.GetComponent<Target>().HideSkull();
+        }
         EndGame();
     }
 
@@ -107,7 +147,7 @@ public class GameManager : MonoBehaviour {
     private void RandomizeTargets()
     {
         //random nb of targets
-       int nbTargets = Mathf.FloorToInt(Random.Range(minNbTargets, maxNbTargets));
+       nbTargets = Mathf.FloorToInt(Random.Range(minNbTargets, maxNbTargets));
 
        for(int i = 0; i < nbTargets; ++i) {
         
@@ -137,6 +177,8 @@ public class GameManager : MonoBehaviour {
                 damageDone += HP * (total - (curr/total));
             }
         }
+        // slowly kill everyone
+        killTarget();
     }
 
     private void StatAssessment() {
@@ -156,6 +198,20 @@ public class GameManager : MonoBehaviour {
         PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
         PlayerPrefs.SetInt("TotalKilled", PlayerPrefs.GetInt("TotalKilled") + 1);
         if(remainingHp <= 0) PlayerPrefs.SetInt("TotalDeath", PlayerPrefs.GetInt("TotalDeath") + 1);
+
+    }
+
+    private void ActivateEndUI(){
+        dmgCount.text = "" + damageDone.ToString("F0");
+        reactionCount.text = "" + timeWaited.ToString("F2");
+        killCount.text = "" + killed;
+
+        replayBtn.gameObject.SetActive(true);
+        menuBtn.gameObject.SetActive(true);
+        Dmg.gameObject.SetActive(true);
+        HP.gameObject.SetActive(true);
+        Reaction.gameObject.SetActive(true);
+        Kills.gameObject.SetActive(true);
 
     }
 }

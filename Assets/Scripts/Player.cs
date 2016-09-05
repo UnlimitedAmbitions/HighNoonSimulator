@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-	private int hp;
+	public int hp;
 	public int decreaseHPThreshold;
 	public int[] damageShots;
 
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		// Randomly deduct hp
-		if(Mathf.FloorToInt(Random.Range(0, 100)) > decreaseHPThreshold){
+		if(GameManager.instance.gameStarted && Mathf.FloorToInt(Random.Range(0, 100)) > decreaseHPThreshold){
 			hp -= damageShots[Mathf.FloorToInt(Random.Range(0, damageShots.Length))];
 
 			// If dead, alert GameManager

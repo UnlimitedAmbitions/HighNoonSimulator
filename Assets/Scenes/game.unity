@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692504, g: 0.4967869, b: 0.57508504, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692546, g: 0.49678743, b: 0.5750859, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -405,6 +405,8 @@ GameObject:
   - 4: {fileID: 735841175}
   - 114: {fileID: 735841174}
   - 82: {fileID: 735841176}
+  - 82: {fileID: 735841177}
+  - 114: {fileID: 735841178}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -427,14 +429,26 @@ MonoBehaviour:
     type: 2}
   minNbTargets: 1
   maxNbTargets: 6
+  playerScript: {fileID: 735841178}
   lowerLeft: {fileID: 1210572125}
   upperRight: {fileID: 989377374}
   startDelay: 1
   replayBtn: {fileID: 1394590105}
   menuBtn: {fileID: 1786962902}
-  audioSource: {fileID: 735841176}
+  Dmg: {fileID: 1635521163}
+  HP: {fileID: 1116373974}
+  Reaction: {fileID: 597476581}
+  Kills: {fileID: 911240255}
+  dmgCount: {fileID: 1778616386}
+  HPCount: {fileID: 758570868}
+  reactionCount: {fileID: 1624329034}
+  killCount: {fileID: 1833485999}
+  itsHighNoonSource: {fileID: 735841176}
+  gunshotSource: {fileID: 735841177}
   itsHighNoon: {fileID: 8300000, guid: 14637d81abd57b248b3f3ce5cd25fcb8, type: 3}
   gunshot: {fileID: 8300000, guid: 33665b056dc01f447a84352052aea143, type: 3}
+  totalAnimationTime: 0
+  betweenShotsTime: 0.125
   gameStarted: 0
 --- !u!4 &735841175
 Transform:
@@ -511,7 +525,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -523,6 +537,94 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!82 &735841177
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735841173}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 33665b056dc01f447a84352052aea143, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &735841178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735841173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3579eb4f0c7de4db9a04c9e0fcf17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  decreaseHPThreshold: 98
+  damageShots: 64000000640000006400000064000000
 --- !u!1 &758570866
 GameObject:
   m_ObjectHideFlags: 0
