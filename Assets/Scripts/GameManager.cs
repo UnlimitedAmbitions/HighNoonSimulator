@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour {
             o.GetComponent<Target>().HideSkull();
         }
         EndGame();
+        ActivateEndUI();
     }
 
     public void RestartGame(){

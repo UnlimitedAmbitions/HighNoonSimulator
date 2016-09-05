@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Target : MonoBehaviour {
 
-    public GameObject target;
+    public GameObject target, point;
     public Image circle;
 
     public float scalingRate;
@@ -19,6 +19,8 @@ public class Target : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        target.gameObject.SetActive(false);
+        point.gameObject.SetActive(true);
         scale = startingScale;
         circle.transform.localScale = new Vector3(scale, scale, scale);
         wouldDie = false;
@@ -57,6 +59,8 @@ public class Target : MonoBehaviour {
 
     private void setSkull() {
         // set skull
+        target.gameObject.SetActive(true);
+        point.gameObject.SetActive(false);
         Debug.Log("target set skull");
     }
 }
