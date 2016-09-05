@@ -6,6 +6,9 @@ public class Target : MonoBehaviour {
 
     public GameObject target, point;
     public Image circle;
+    public Image currentChar;
+
+    public Sprite[] characters;
 
     public float scalingRate;
     public float[] allScalingRates;
@@ -24,8 +27,10 @@ public class Target : MonoBehaviour {
         scale = startingScale;
         circle.transform.localScale = new Vector3(scale, scale, scale);
         wouldDie = false;
-        scalingRate = allScalingRates[Mathf.FloorToInt(Random.Range(0, allScalingRates.Length))];
-        HP = totalHP[Mathf.FloorToInt(Random.Range(0, totalHP.Length))];
+        int index = Mathf.FloorToInt(Random.Range(0, characters.Length));
+        scalingRate = allScalingRates[index];
+        HP = totalHP[index];
+        currentChar.sprite = characters[index];
 	
 	}
 	
