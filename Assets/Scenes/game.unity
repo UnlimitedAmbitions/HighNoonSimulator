@@ -624,7 +624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   decreaseHPThreshold: 98
-  damageShots: 64000000640000006400000064000000
+  damageShots: 0a000000190000003200000064000000
 --- !u!1 &758570866
 GameObject:
   m_ObjectHideFlags: 0
