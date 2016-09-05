@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviour {
         // update stats
         //if(prevRemainingHp < remainingHp) PlayerPrefs.SetInt("TotalDeath", remainingHp);
         if(prevDamageDone < damageDone) PlayerPrefs.SetFloat("DamageDone", damageDone);
-        if(prevTimeWaited > timeWaited) PlayerPrefs.SetFloat("TimeWaited"+killed, timeWaited);
+        if((prevTimeWaited > timeWaited) || prevTimeWaited == 0f) PlayerPrefs.SetFloat("TimeWaited"+killed, timeWaited);
         PlayerPrefs.SetInt("GamesPlayed", PlayerPrefs.GetInt("GamesPlayed") + 1);
         PlayerPrefs.SetInt("TotalKilled", PlayerPrefs.GetInt("TotalKilled") + killed);
         if(remainingHp <= 0) PlayerPrefs.SetInt("TotalDeath", PlayerPrefs.GetInt("TotalDeath") + 1);
