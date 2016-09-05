@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour {
     private void RandomizeTargets()
     {
         //random nb of targets
-       nbTargets = Mathf.FloorToInt(Random.Range(minNbTargets, maxNbTargets));
+       nbTargets = Mathf.FloorToInt(Random.Range(minNbTargets, maxNbTargets+1));
 
        for(int i = 0; i < nbTargets; ++i) {
         
